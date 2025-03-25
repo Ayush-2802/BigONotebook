@@ -1,0 +1,742 @@
+/* Minimal iOS-inspired design for Big O Notation Cheat Sheet */
+
+/* Base variables */
+:root {
+    /* Light theme colors */
+    --primary: #007AFF;
+    --secondary: #5AC8FA;
+    --accent: #FF9500;
+    --background: #F2F2F7;
+    --card: #FFFFFF;
+    --text-primary: #1C1C1E;
+    --text-secondary: #8E8E93;
+    --border: #E5E5EA;
+    --navbar-bg: rgba(255, 255, 255, 0.85);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+    
+    /* Complexity colors */
+    --green: #34C759;
+    --yellow-green: #30B94D;
+    --yellow: #FFCC00;
+    --orange: #FF9500;
+    --red: #FF3B30;
+    --gray: #8E8E93;
+    
+    /* RGB values for opacity */
+    --primary-rgb: 0, 122, 255;
+    --secondary-rgb: 90, 200, 250;
+    
+    /* Animation */
+    --transition: 0.25s;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+    --primary: #0A84FF;
+    --secondary: #64D2FF;
+    --accent: #FF9F0A;
+    --background: #1C1C1E;
+    --card: #2C2C2E;
+    --text-primary: #FFFFFF;
+    --text-secondary: #98989D;
+    --border: #38383A;
+    --navbar-bg: rgba(28, 28, 30, 0.85);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    
+    /* RGB values for dark mode */
+    --primary-rgb: 10, 132, 255;
+    --secondary-rgb: 100, 210, 255;
+}
+
+/* Base styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text-primary);
+    background-color: var(--background);
+    transition: background-color var(--transition) ease;
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+/* Layout */
+.container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 15px 60px;
+}
+
+/* Navbar */
+.navbar {
+    position: sticky;
+    top: 0;
+    height: 56px;
+    z-index: 100;
+    background-color: var(--navbar-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+}
+
+.navbar-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    color: var(--primary) !important;
+    font-weight: 600;
+}
+
+.navbar-brand i {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+.nav-title {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+}
+
+/* Theme Switch */
+.theme-switch {
+    height: 26px;
+    width: 50px;
+    position: relative;
+    display: inline-block;
+}
+
+.theme-switch input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(120, 120, 128, 0.32);
+    border-radius: 34px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 2px;
+    bottom: 2px;
+    background: white;
+    border-radius: 50%;
+    transition: var(--transition);
+    z-index: 2;
+}
+
+.moon-icon, .sun-icon {
+    color: white;
+    font-size: 12px;
+    z-index: 1;
+}
+
+.moon-icon {
+    margin-right: 5px;
+}
+
+.sun-icon {
+    margin-left: auto;
+}
+
+input:checked + .slider {
+    background: var(--primary);
+}
+
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+/* Header */
+.ios-header {
+    text-align: center;
+    margin: 1.5rem 0 2rem;
+}
+
+.ios-header h1 {
+    font-weight: 700;
+    font-size: 2rem;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.3rem;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.ios-subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+/* Content flow container */
+.content-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Section width classes */
+.full-width {
+    width: 100%;
+}
+
+.medium-width {
+    width: 100%;
+}
+
+.small-width {
+    width: 100%;
+}
+
+/* Small tables wrapper - will display side by side when space permits */
+.small-tables-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+/* Cards */
+.ios-card {
+    background: var(--card);
+    border-radius: 14px;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    animation: slide-up 0.4s ease-out forwards;
+    opacity: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.ios-card h2 {
+    padding: 0.9rem 1.2rem;
+    margin: 0;
+    background: #8E8E93; /* Gray instead of primary color */
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: -0.3px;
+    border-radius: 14px 14px 0 0;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.ios-card h2 i {
+    margin-right: 8px;
+}
+
+/* Dark mode header colors */
+[data-theme="dark"] .ios-card h2 {
+    background: #636366;
+}
+
+/* Table styling - UPDATED FOR CENTERING */
+.table-scroll-container {
+    padding: 0.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex: 1;
+    display: flex;
+    justify-content: center; /* Center tables horizontally */
+    align-items: flex-start; /* Align to the top */
+}
+
+.table-scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+.table {
+    width: auto; /* Let table size based on content */
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 14px;
+    margin: 0 auto; /* Center tables */
+}
+
+.table th, .table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+.table th:not(:last-child), 
+.table td:not(:last-child) {
+    border-right: 1px solid var(--border);
+}
+
+/* Table header styles - gray themed */
+.table thead th {
+    font-size: 12px;
+    background: #8E8E93;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding: 10px 8px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.table thead tr:first-child th {
+    background: #636366;
+    font-size: 11px;
+    padding: 10px 8px;
+}
+
+.table thead tr:nth-child(2) th {
+    background: #8E8E93;
+    font-size: 11px;
+    padding: 8px 6px;
+}
+
+.table thead tr:nth-child(3) th {
+    background: #AEAEB2;
+    font-size: 10px;
+    padding: 8px 6px;
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .table thead tr:first-child th {
+    background: #3A3A3C;
+}
+
+[data-theme="dark"] .table thead tr:nth-child(2) th {
+    background: #48484A;
+}
+
+[data-theme="dark"] .table thead tr:nth-child(3) th {
+    background: #636366;
+}
+
+.table tbody tr:nth-child(even) {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.table a {
+    padding: 5px 0;
+    display: block;
+    font-weight: 500;
+}
+
+/* Code blocks */
+code {
+    padding: 3px 6px;
+    border-radius: 6px;
+    font-family: 'SF Mono', Menlo, monospace;
+    font-weight: 500;
+    font-size: 13px;
+    display: inline-block;
+    min-width: 65px;
+    text-align: center; /* Center code text */
+}
+
+code.green {
+    background: rgba(52, 199, 89, 0.12);
+    color: var(--green);
+    border: 1px solid rgba(52, 199, 89, 0.2);
+}
+
+code.yellow-green {
+    background: rgba(48, 185, 77, 0.12);
+    color: var(--yellow-green);
+    border: 1px solid rgba(48, 185, 77, 0.2);
+}
+
+code.yellow {
+    background: rgba(255, 204, 0, 0.12);
+    color: var(--yellow);
+    border: 1px solid rgba(255, 204, 0, 0.2);
+}
+
+code.orange {
+    background: rgba(255, 149, 0, 0.12);
+    color: var(--orange);
+    border: 1px solid rgba(255, 149, 0, 0.2);
+}
+
+code.red {
+    background: rgba(255, 59, 48, 0.12);
+    color: var(--red);
+    border: 1px solid rgba(255, 59, 48, 0.2);
+}
+
+code.gray {
+    background: rgba(142, 142, 147, 0.12);
+    color: var(--gray);
+    border: 1px solid rgba(142, 142, 147, 0.2);
+}
+
+/* Legend */
+.legend-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 1rem;
+    justify-content: center; /* Center legend items */
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    min-width: 48%;
+}
+
+.legend-item code {
+    margin-right: 10px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem 0 2rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Mobile nav */
+.mobile-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 100;
+    padding: 8px 0;
+}
+
+.mobile-nav-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text-secondary);
+    flex: 1;
+}
+
+.mobile-nav-item.active {
+    color: var(--primary);
+}
+
+.mobile-nav-item i {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.mobile-nav-item span {
+    font-size: 11px;
+}
+
+/* Animations */
+@keyframes slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+section:nth-child(1) .ios-card { animation-delay: 0.05s; }
+section:nth-child(2) .ios-card { animation-delay: 0.15s; }
+section:nth-child(3) .ios-card,
+.small-tables-wrapper section:first-child .ios-card { animation-delay: 0.25s; }
+section:nth-child(4) .ios-card,
+.small-tables-wrapper section:last-child .ios-card { animation-delay: 0.35s; }
+
+/* Haptic touch effect */
+@keyframes haptic-touch {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.98); }
+    100% { transform: scale(1); }
+}
+
+.haptic-touch {
+    animation: haptic-touch 0.2s ease-in-out;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    .ios-header h1 {
+        font-size: 1.6rem;
+    }
+    
+    .ios-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .ios-card h2 {
+        padding: 0.8rem 1rem;
+        font-size: 1rem;
+    }
+    
+    .table {
+        font-size: 13px;
+    }
+    
+    .table th, .table td {
+        padding: 8px 6px;
+    }
+    
+    .legend-item {
+        min-width: 100%;
+    }
+    
+    code {
+        min-width: 60px;
+        font-size: 12px;
+    }
+    
+    /* Fix table centering on mobile */
+    .table-scroll-container {
+        padding: 0.5rem 0;
+        width: 100%;
+        justify-content: flex-start; /* Start alignment on mobile for better scrolling */
+    }
+    
+    .table {
+        width: auto;
+        margin: 0; /* Remove auto margin on mobile */
+    }
+}
+
+@media screen and (max-width: 576px) {
+    body {
+        font-size: 14px;
+    }
+    
+    .ios-header {
+        margin: 1rem 0 1.5rem;
+    }
+    
+    .ios-header h1 {
+        font-size: 1.4rem;
+    }
+    
+    .ios-subtitle {
+        font-size: 0.8rem;
+    }
+    
+    .table {
+        font-size: 12px;
+    }
+    
+    .table th, .table td {
+        padding: 6px 5px;
+    }
+    
+    .table thead th {
+        padding: 6px 4px;
+        font-size: 10px;
+    }
+    
+    .table thead tr:first-child th {
+        font-size: 9px;
+    }
+    
+    .table thead tr:nth-child(2) th,
+    .table thead tr:nth-child(3) th {
+        font-size: 8px;
+        padding: 5px 3px;
+    }
+    
+    code {
+        min-width: 50px;
+        padding: 2px 5px;
+        font-size: 11px;
+    }
+    
+    .content-flow {
+        gap: 15px;
+    }
+    
+    .small-tables-wrapper {
+        gap: 15px;
+    }
+    
+    .mobile-nav {
+        display: block;
+    }
+    
+    .container {
+        padding-bottom: 80px;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .table {
+        font-size: 11px;
+    }
+    
+    .table th, .table td {
+        padding: 5px 4px;
+    }
+    
+    .table thead th {
+        padding: 5px 3px;
+        font-size: 9px;
+    }
+    
+    .table thead tr:first-child th {
+        font-size: 8px;
+    }
+    
+    .table thead tr:nth-child(2) th,
+    .table thead tr:nth-child(3) th {
+        font-size: 7px;
+        padding: 4px 2px;
+    }
+    
+    code {
+        min-width: 45px;
+        font-size: 10px;
+        padding: 2px 3px;
+    }
+    
+    .navbar {
+        height: 48px;
+    }
+    
+    .nav-title {
+        font-size: 15px;
+    }
+    
+    .navbar-brand i {
+        font-size: 15px;
+    }
+    
+    .theme-switch {
+        height: 22px;
+        width: 44px;
+    }
+    
+    .slider:before {
+        height: 18px;
+        width: 18px;
+    }
+    
+    input:checked + .slider:before {
+        transform: translateX(22px);
+    }
+    
+    .content-flow {
+        gap: 12px;
+    }
+    
+    .small-tables-wrapper {
+        gap: 12px;
+    }
+}
+
+/* Responsive side-by-side layout for small tables only */
+@media screen and (min-width: 768px) {
+    /* Small tables go side by side */
+    .small-tables-wrapper {
+        flex-direction: row;
+    }
+    
+    .small-width {
+        flex: 0 0 calc(50% - 10px);
+        max-width: calc(50% - 10px);
+    }
+    
+    /* Fix table centering when side-by-side */
+    .small-width .table-scroll-container {
+        justify-content: center;
+    }
+}
+
+/* Responsive side-by-side layout for medium tables on very large screens */
+@media screen and (min-width: 1200px) {
+    /* Medium tables might go side by side on very large screens */
+    .content-flow {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .small-tables-wrapper {
+        grid-column: 1 / -1;
+    }
+    
+    /* Use class-based approach instead of :has() for older browser support */
+    .content-flow.medium-pair {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    /* Full width sections always take the full width */
+    .full-width {
+        grid-column: 1 / -1;
+    }
+    
+    /* Ensure tables in two column layout are centered */
+    .medium-width .table-scroll-container {
+        justify-content: center;
+    }
+}
+
+/* Special case for the legend section */
+#legend {
+    margin-top: 10px;
+}
+
+/* Replace :has() selector with a regular class for compatibility */
+section.no-heading {
+    margin-top: 1rem;
+}
